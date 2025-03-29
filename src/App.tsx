@@ -1,3 +1,4 @@
+import TooltipButton from "./TooltipButton";
 import React, { useMemo, useState } from "react";
 import {
   Clipboard,
@@ -6,11 +7,23 @@ import {
   ClipboardPaste as Paste,
 } from "lucide-react";
 import { micromark } from "micromark";
-import TooltipButton from "./TooltipButton";
+import { math, mathHtml } from "micromark-extension-math";
 
 export default function App() {
   const [text, setText] = useState("");
-  const htmlContent = useMemo(() => micromark(text), [text]);
+  const htmlContent = useMemo(
+    () =>
+      "<html><head>" +
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">' +
+      "</head><body>" +
+      micromark(text, {
+        allowDangerousHtml: false,
+        extensions: [math()],
+        htmlExtensions: [mathHtml()],
+      }) +
+      "</body></html>",
+    [text]
+  );
 
   const copyToClipboard = () => navigator.clipboard.writeText(text);
   const pasteFromClipboard = async () =>
@@ -37,6 +50,7 @@ export default function App() {
 
       <div className="flex flex-col md:flex-row flex-grow gap-4">
         <textarea
+          id="markdown"
           className="w-full md:w-1/2 p-4 rounded-lg border border-gray-300 shadow-md resize-none min-h-[200px]"
           rows={6}
           placeholder="Gib hier deinen Markdown-Text ein..."
@@ -46,10 +60,11 @@ export default function App() {
 
         <div className="w-full md:w-1/2 p-4 rounded-lg border border-gray-300 shadow-md bg-white">
           <iframe
+            id="html"
             srcDoc={htmlContent}
             title="Markdown Preview"
             className="w-full min-h-[300px] md:h-full"
-            sandbox="allow-same-origin"
+            sandbox="allow-scripts"
           />
         </div>
       </div>

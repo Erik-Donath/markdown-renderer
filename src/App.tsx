@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Clipboard,
   Download,
   Code,
   ClipboardPaste as Paste,
 } from "lucide-react";
+import { micromark } from "micromark";
 
 export default function App() {
   const [text, setText] = useState("");
+  const [htmlContent, setHTMLContent] = useState("");
 
   const copyToClipboard = () => navigator.clipboard.writeText(text);
   const pasteFromClipboard = async () =>
     setText(await navigator.clipboard.readText());
   const downloadAsPng = () => alert("Download als PNG wird hier implementiert");
-  const copyHtml = () => alert("HTML Kopieren wird hier implementiert");
+  const copyHtml = () => navigator.clipboard.writeText(htmlContent);
+
+  useEffect(() => {
+    setHTMLContent(micromark(text));
+  }, [text]);
 
   return (
     <div className="flex flex-col h-screen p-4 bg-gray-100">
@@ -57,7 +63,12 @@ export default function App() {
         />
 
         <div className="w-1/2 p-4 rounded-lg border border-gray-300 shadow-md bg-white">
-          {text}
+          <iframe
+            srcDoc={htmlContent}
+            title="Markdown Preview"
+            className="w-full h-full"
+            sandbox="allow-same-origin"
+          />
         </div>
       </div>
     </div>

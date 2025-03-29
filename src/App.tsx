@@ -17,7 +17,7 @@ export default function App() {
       '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">' +
       "</head><body>" +
       micromark(text, {
-        allowDangerousHtml: false,
+        allowDangerousHtml: true,
         extensions: [math()],
         htmlExtensions: [mathHtml()],
       }) +

@@ -1,12 +1,7 @@
 import TooltipButton from "./TooltipButton";
 import MarkdownBlock, { MarkdownBlockHandle } from "./MarkdownBlock";
 import React, { useState, useRef } from "react";
-import {
-  Clipboard,
-  Download,
-  Code,
-  ClipboardPaste as Paste,
-} from "lucide-react";
+import { Clipboard, Download, ClipboardPaste as Paste } from "lucide-react";
 
 const app = function App() {
   const [text, setText] = useState("");

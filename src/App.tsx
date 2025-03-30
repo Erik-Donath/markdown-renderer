@@ -11,6 +11,7 @@ import {
 const app = function App() {
   const [text, setText] = useState("");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const htmlContent = useMemo(
     () =>
       "<html><head>" +
@@ -24,6 +25,9 @@ const app = function App() {
       "</body></html>",
     [text]
   );
+=======
+  const markdownBlockRef = useRef<MarkdownBlockHandle>(null);
+>>>>>>> Stashed changes
 =======
   const markdownBlockRef = useRef<MarkdownBlockHandle>(null);
 >>>>>>> Stashed changes

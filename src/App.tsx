@@ -10,27 +10,7 @@ import {
 
 const app = function App() {
   const [text, setText] = useState("");
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const htmlContent = useMemo(
-    () =>
-      "<html><head>" +
-      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">' +
-      "</head><body>" +
-      micromark(text, {
-        allowDangerousHtml: true,
-        extensions: [math()],
-        htmlExtensions: [mathHtml()],
-      }) +
-      "</body></html>",
-    [text]
-  );
-=======
   const markdownBlockRef = useRef<MarkdownBlockHandle>(null);
->>>>>>> Stashed changes
-=======
-  const markdownBlockRef = useRef<MarkdownBlockHandle>(null);
->>>>>>> Stashed changes
 
   const copyToClipboard = () => navigator.clipboard.writeText(text);
   const pasteFromClipboard = async () =>

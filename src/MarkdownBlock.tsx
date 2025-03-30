@@ -1,4 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Frame from "react-frame-component";
 import { micromark } from "micromark";
 import { math, mathHtml } from "micromark-extension-math";
@@ -14,16 +20,22 @@ export interface MarkdownBlockHandle {
 const MarkdownBlock = forwardRef<MarkdownBlockHandle, MarkdownBlockProps>(
   ({ children }, ref) => {
     const frameRef = useRef<HTMLIFrameElement | null>(null);
+    const [htmlContent, setHtmlContent] = useState<string>("");
 
-    const htmlContent = useMemo(
-      () =>
-        micromark(children, {
-          allowDangerousHtml: true,
-          extensions: [math()],
-          htmlExtensions: [mathHtml()],
-        }),
-      [children]
-    );
+    useMemo(() => {
+      try {
+        setHtmlContent(
+          micromark(children, {
+            allowDangerousHtml: true,
+            extensions: [math()],
+            htmlExtensions: [mathHtml()],
+          })
+        );
+      } catch (error) {
+        //console.error("Error while parsing Markdown:", error);
+        // Optionally keep the previous content or set a fallback message
+      }
+    }, [children]);
 
     useImperativeHandle(ref, () => ({
       getFullHtmlContent: () => {
